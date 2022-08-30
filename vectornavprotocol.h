@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <stdio.h>
 #include <unistd.h>
-#include "vectornav.h"
+#include "include_vn100/vectornav.h"
 #include <QThread>
 #include <QDebug>
 
@@ -25,7 +25,7 @@ public:
         moveToThread(thread);
         thread->start();
         vn100_connect(&vn100, COM_PORT, BAUD_RATE);
-        sleep(1000);
+        Sleep(1000);
         connect(&timer, &QTimer::timeout, this, &VectorNavProtocol::tick);
     }
     virtual ~VectorNavProtocol(){

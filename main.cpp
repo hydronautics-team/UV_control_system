@@ -1,9 +1,9 @@
 #include <QCoreApplication>
-#include "include_vn100/vectornavprotocol.h"
+#include "vectornavprotocol.h"
 #include <QThread>
 #include "kx_pult/kx_protocol.h"
 #include "kx_pult/qkx_coeffs.h"
-#include "pult_connection/pultcontrolsystemprotocols.h"
+#include "pultcontrolsystemprotocols.h"
 
 const QString ConfigFile = "protocols.conf";
 const QString XI = "xi";
