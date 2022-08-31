@@ -1,5 +1,6 @@
 QT += core network
 QT -= gui
+QT += serialport
 
 CONFIG += c++11
 
@@ -14,8 +15,7 @@ SOURCES += *.cpp\
           include_vn100/vncp_services.c \
           kx_pult/kx_protocol.cpp\
           kx_pult/qkx_coeffs.cpp\
-          kx_pult/qpiconfig.cpp\
-          pult_connection/uv_state.cpp
+          kx_pult/qpiconfig.cpp
 
 HEADERS +=include_vn100/vectornav.h \
           include_vn100/vectornavprotocol.h \
