@@ -21,23 +21,29 @@ int main(int argc, char *argv[])
     //обмен с VectorNav (там внутри пример с примененем X-ов)
     VectorNavProtocol vn100Proto;
     vn100Proto.start(100);
+
     //обмен с пультом
-    ControlSystem::PC_Protocol *pultProtocol = new ControlSystem::PC_Protocol(ConfigFile,"rov_pult");
-    pultProtocol->send_data.imuData.ax = 1;
-    pultProtocol->send_data.imuData.ay = 2;
-    pultProtocol->send_data.imuData.az = 3;
-    pultProtocol->send_data.imuData.gamma = 4;
-    pultProtocol->send_data.imuData.psi = 5;
-    pultProtocol->send_data.imuData.teta = 6;
-    pultProtocol->send_data.imuData.q0 = 7;
-    pultProtocol->send_data.imuData.q1 = 8;
-    pultProtocol->send_data.imuData.q2 = 9;
-    pultProtocol->send_data.imuData.q3 = 10;
-    pultProtocol->send_data.depth = 11;
-    pultProtocol->send_data.connectionFlags.controlSystem = 0;
-    pultProtocol->send_data.connectionFlags.joystick = 1;
-    pultProtocol->send_data.connectionFlags.thrusterController = 0;
-    pultProtocol->send_data.connectionFlags.vectorNav = 1;
+    ControlSystem::PC_Protocol *controlProtocol = new ControlSystem::PC_Protocol(QHostAddress("127.0.0.1"), 13020,
+                                                                                 QHostAddress::LocalHost, 13021, 10);
+
+    controlProtocol->send_data.imuData.ax = 1;
+    controlProtocol->send_data.imuData.ay = 2;
+    controlProtocol->send_data.imuData.az = 3;
+    controlProtocol->send_data.imuData.gamma = 4;
+    controlProtocol->send_data.imuData.psi = 5;
+    controlProtocol->send_data.imuData.teta = 6;
+    controlProtocol->send_data.imuData.q0 = 7;
+    controlProtocol->send_data.imuData.q1 = 8;
+    controlProtocol->send_data.imuData.q2 = 9;
+    controlProtocol->send_data.imuData.q3 = 10;
+    controlProtocol->send_data.depth = 11;
+    controlProtocol->send_data.connectionFlags.controlSystem = 0;
+    controlProtocol->send_data.connectionFlags.joystick = 1;
+    controlProtocol->send_data.connectionFlags.thrusterController = 0;
+    controlProtocol->send_data.connectionFlags.vectorNav = 1;
+
+    qDebug() << "-----start exchange";
+    controlProtocol->startExchange();
 
     return a.exec();
 }
