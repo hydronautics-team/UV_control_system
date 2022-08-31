@@ -1,7 +1,7 @@
 #ifndef UV_STATE_H
 #define UV_STATE_H
 
-#include "stdint.h"
+#include <cstdint>
 
 #include <QDebug>
 

@@ -3,9 +3,10 @@
 
 #include <QObject>
 #include <QTimer>
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
-#include "vectornav.h"
+#include "include_vn100/vectornav.h"
+#include "include_vn100/vn100.h"
 #include <QThread>
 #include <QDebug>
 

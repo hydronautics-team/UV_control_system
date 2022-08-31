@@ -10,6 +10,16 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#set(CMAKE_C_COMPILER iccarm)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -std=c++0x")
+#set(CMAKE_EXE_LINKER_FLAGS "-lc++abi")
+
+#set(CMAKE_CXX_COMPILER "clang++")
+#DCMAKE_CXX_FLAGS="-stdlib=libc++"
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets SerialPort REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui Widgets SerialPort Network Test REQUIRED)
 
@@ -27,6 +37,8 @@ set(PROJECT_SOURCES
         kx_pult/qkx_coeffs.cpp
         kx_pult/qpiconfig.cpp
 
+        pult_connection/uv_state.cpp
+
         #----------------------------------
         include_vn100/vectornav.h
         include_vn100/vectornavprotocol.h
@@ -40,6 +52,10 @@ set(PROJECT_SOURCES
         kx_pult/kx_protocol.h
         kx_pult/qkx_coeffs.h
         kx_pult/qpiconfig.h
+
+        pult_connection/pultcontrolsystemprotocols.h
+        pult_connection/udp_protocol.h
+        pult_connection/uv_state.h
 
         )
 
