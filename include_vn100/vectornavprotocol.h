@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <stdio.h>
 #include <unistd.h>
-#include "include_vn100/vectornav.h"
+#include "vectornav.h"
 #include <QThread>
 #include <QDebug>
 

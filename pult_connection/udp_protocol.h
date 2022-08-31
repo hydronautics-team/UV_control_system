@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QUdpSocket>
-#include "kx_pult/qpiconfig.h"
+#include "../kx_pult/qpiconfig.h"
 
 template <class ReceiveStruct, class SendStruct>
 class UdpProtocol : public QObject  {

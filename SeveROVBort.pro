@@ -14,13 +14,24 @@ SOURCES += *.cpp\
           include_vn100/vncp_services.c \
           kx_pult/kx_protocol.cpp\
           kx_pult/qkx_coeffs.cpp\
-          kx_pult/qpiconfig.cpp
+          kx_pult/qpiconfig.cpp\
+          pult_connection/uv_state.cpp
 
-HEADERS +=include_vn100/*.h \
-          *.h\
+HEADERS +=include_vn100/vectornav.h \
+          include_vn100/vectornavprotocol.h \
+          include_vn100/vn100.h \
+          include_vn100/vn_common.h \
+          include_vn100/vn_errorCodes.h \
+          include_vn100/vn_kinematics.h \
+          include_vn100/vn_linearAlgebra.h \
+          include_vn100/vn_math.h \
+          include_vn100/vncp_services.h \
           kx_pult/kx_protocol.h\
           kx_pult/qkx_coeffs.h\
-          kx_pult/qpiconfig.h
+          kx_pult/qpiconfig.h\
+          pult_connection/pultcontrolsystemprotocols.h\
+          pult_connection/udp_protocol.h\
+          pult_connection/uv_state.h
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings

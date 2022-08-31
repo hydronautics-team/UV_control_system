@@ -1,9 +1,9 @@
 #include <QCoreApplication>
-#include "vectornavprotocol.h"
+#include "include_vn100/vectornavprotocol.h"
 #include <QThread>
 #include "kx_pult/kx_protocol.h"
 #include "kx_pult/qkx_coeffs.h"
-#include "pultcontrolsystemprotocols.h"
+#include "pult_connection/pultcontrolsystemprotocols.h"
 
 const QString ConfigFile = "protocols.conf";
 const QString XI = "xi";
@@ -38,5 +38,6 @@ int main(int argc, char *argv[])
     pultProtocol->send_data.connectionFlags.joystick = 1;
     pultProtocol->send_data.connectionFlags.thrusterController = 0;
     pultProtocol->send_data.connectionFlags.vectorNav = 1;
+
     return a.exec();
 }
