@@ -49,6 +49,7 @@ protected:
     ControlSystem::PC_Protocol *pultProtocol = nullptr;
     ROV_Model model;
     QTimer timer;
+    QThread vmaThread;
     bool vmaPowerOffFlag = true;
     bool modellingFlag = true;
 };

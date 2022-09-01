@@ -11,8 +11,6 @@ CS_ROV::CS_ROV(QObject *parent)
     qint32 baudrate = settings.value("baudrate", 230400).toInt();
     settings.endGroup();
     vmaProtocol = new VMAController(port, baudrate);
-
-    QThread vmaThread;
     vmaProtocol->moveToThread(&vmaThread);
     QObject::connect(&vmaThread, &QThread::started, vmaProtocol, &VMAController::start);
     vmaThread.start();
@@ -153,10 +151,10 @@ void CS_ROV::setModellingFlag(bool flag)
 
 void CS_ROV::writeDataToVMA()
 {
-    if (K[0] > 0) {//режим модели
+    if (modellingFlag) {//режим модели
         model.tick(X[111][0], X[121][0], X[131][0], X[141][0], X[151][0],X[161][0],X[171][0],X[181][0],0.01);
     }
     else {
-        vmaProtocol->setValues(X[111][0], X[121][0], X[131][0], X[141][0], X[151][0],X[161][0],X[171][0],X[181][0],vmaPowerOffFlag);
+      vmaProtocol->setValues(X[111][0], X[121][0], X[131][0], X[141][0], X[151][0],X[161][0],X[171][0],X[181][0],vmaPowerOffFlag);
     }
 }
