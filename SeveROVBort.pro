@@ -10,13 +10,20 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
+win32{
+    SOURCES+=include_vn100/windows/vncp_services.c
+}
+linux{
+      SOURCES+=include_vn100/linux/vncp_services.c
+}
+
 SOURCES += *.cpp\
           include_vn100/vn100.c\
-          include_vn100/vncp_services.c \
           vma/vmacontroller.cpp\
           kx_pult/kx_protocol.cpp\
           kx_pult/qkx_coeffs.cpp\
-          kx_pult/qpiconfig.cpp
+          kx_pult/qpiconfig.cpp\
+          pult_connection/uv_state.cpp
 
 HEADERS += *.h\
           vma/vmacontroller.h\

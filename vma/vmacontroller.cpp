@@ -44,15 +44,15 @@ void VMAController::start() {
 }
 
 void VMAController::tick() {
-    vmaVector[0] = K[300];
-    vmaVector[1] = K[301];
-    vmaVector[2] = K[302];
-    vmaVector[3] = K[303];
-    vmaVector[4] = K[304];
-    vmaVector[5] = K[305];
-    vmaVector[6] = K[306];
-    vmaVector[7] = K[307];
-    vmaVector[8] = K[308]; //flags
+//    vmaVector[0] = K[300];
+//    vmaVector[1] = K[301];
+//    vmaVector[2] = K[302];
+//    vmaVector[3] = K[303];
+//    vmaVector[4] = K[304];
+//    vmaVector[5] = K[305];
+//    vmaVector[6] = K[306];
+//    vmaVector[7] = K[307];
+//    vmaVector[8] = K[308]; //flags
     sendData();
 }
 
@@ -115,15 +115,16 @@ void VMAController::setValues(const float Upnp, const float Upnl, const float Uz
 {
     double scale=2;
     if (K[99]!=0) scale = K[99];
-    vmaVector[0] = round(Upnp/scale)+K[98];
-    vmaVector[1] = round(Upnl/scale)+K[98];
-    vmaVector[2] = round(Uznl/scale)+K[98];
-    vmaVector[3] = round(Uznp/scale)+K[98];
-    vmaVector[4] = round(Upvp/scale)+K[98];
-    vmaVector[5] = round(Upvl/scale)+K[98];
-    vmaVector[6] = round(Uzvl/scale)+K[98];
-    vmaVector[7] = round(Uzvp/scale)+K[98];
+    X[80][0]=vmaVector[0] = round(Upnp/scale)+K[98];
+    X[81][0]=vmaVector[1] = round(Upnl/scale)+K[98];
+    X[82][0]=vmaVector[2] = round(Uznl/scale)+K[98];
+    X[83][0]=vmaVector[3] = round(Uznp/scale)+K[98];
+    X[84][0]=vmaVector[4] = round(Upvp/scale)+K[98];
+    X[85][0]=vmaVector[5] = round(Upvl/scale)+K[98];
+    X[86][0]=vmaVector[6] = round(Uzvl/scale)+K[98];
+    X[87][0]=vmaVector[7] = round(Uzvp/scale)+K[98];
     (powerFlag)? vmaVector[8] = 0b10000000 : vmaVector[8]=0;
+    X[88][0]=vmaVector[8];
 }
 
 VMAController::~VMAController() {

@@ -25,6 +25,7 @@ public:
     }
 public slots:
     void tick();
+    void resetValues();
 public:
     double limit (double value, double limit){
         if(fabs(value)>limit) return (limit*sgn(value));
@@ -38,14 +39,18 @@ protected:
     void readDataFromSensors();
     void regulators();
     void BFS_DRK(double Upsi, double Uteta, double Ugamma, double Ux, double Uy, double Uz);
-    void writeDataForVMA();
+    void writeDataToVMA();
+    void writeDataToPult();
+    void changePowerOffFlag(qint8 flag);
+    void setModellingFlag(bool);
     VectorNavProtocol *vn100Proto = nullptr;
     VMAController* vmaProtocol = nullptr;
     //обмен с пультом
     ControlSystem::PC_Protocol *pultProtocol = nullptr;
     ROV_Model model;
     QTimer timer;
-    bool vmaPowerFlag;
+    bool vmaPowerOffFlag = true;
+    bool modellingFlag = true;
 };
 
 #endif // CS_ROV_H

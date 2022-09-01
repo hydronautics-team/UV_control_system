@@ -11,6 +11,6 @@ int main(int argc, char* argv[]) {
     Qkx_coeffs* kProtocol = new Qkx_coeffs(ConfigFile, KI);
     //передача X
     x_protocol* xProtocol = new x_protocol(ConfigFile, XI, X);
-
+    CS_ROV cs_rov;
     return a.exec();
 }

@@ -25,7 +25,7 @@ public:
         moveToThread(thread);
         thread->start();
         vn100_connect(&vn100, COM_PORT, BAUD_RATE);
-        sleep(1000);
+        usleep(1000);
         connect(&timer, &QTimer::timeout, this, &VectorNavProtocol::tick);
     }
     virtual ~VectorNavProtocol(){
@@ -44,9 +44,9 @@ public slots:
        vn100_getYawPitchRollTrueInertialAcclerationAngularRate(&vn100,&ypr,&inertialAcceleration,&angularRate);
        //vn100_getCalibratedImuMeasurements(&vn100,&magnetic,&inertialAcceleration,&angularRate, &temp);
     }
-    VnYpr const * const getYPR(){return &ypr;}
-
-    VnVector3 const * const getAngularRate(){return &angularRate;}
+public:
+    VnYpr const *  getYPR(){return &ypr;}
+    VnVector3 const *  getAngularRate(){return &angularRate;}
 protected:
     QTimer timer;
     Vn100 vn100;

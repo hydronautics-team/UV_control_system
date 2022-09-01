@@ -1,7 +1,7 @@
 #ifndef PULTCONTROLSYSTEMPROTOCOLS_H
 #define PULTCONTROLSYSTEMPROTOCOLS_H
-#include "uv_state.h"
-#include "udp_protocol.h"
+#include "pult_connection/uv_state.h"
+#include "pult_connection/udp_protocol.h"
 extern double X[2000][2];
 
 //класс обмена АНПА- планировщик, который создается в АНПА

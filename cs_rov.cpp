@@ -38,6 +38,7 @@ CS_ROV::CS_ROV(QObject *parent)
     pultProtocol->startExchange();
 
     connect(&timer, &QTimer::timeout, this, &CS_ROV::tick);
+    timer.start(100);
 }
 
 void CS_ROV::tick()
@@ -46,7 +47,15 @@ void CS_ROV::tick()
     readDataFromSensors();
     regulators();
     BFS_DRK(X[101][0], X[102][0], X[103][0] , X[104][0], X[105][0], X[106][0]);
-    writeDataForVMA();
+    writeDataToVMA();
+    writeDataToPult();
+
+}
+
+void CS_ROV::resetValues()
+{
+    vmaProtocol->setValues(0, 0, 0, 0, 0,0,0,0,true);
+
 }
 
 void CS_ROV::readDataFromPult()
@@ -57,8 +66,10 @@ void CS_ROV::readDataFromPult()
     X[94][0] = pultProtocol->rec_data.controlData.march;
     X[95][0] = pultProtocol->rec_data.controlData.lag;
     X[96][0] = pultProtocol->rec_data.controlData.depth;
-
-
+    X[97][0] = pultProtocol->rec_data.thrusterPower;
+    changePowerOffFlag(pultProtocol->rec_data.thrusterPower);
+    if (K[0] > 0) setModellingFlag(true);
+    else setModellingFlag(false);
 }
 
 void CS_ROV::readDataFromSensors()
@@ -113,13 +124,39 @@ void CS_ROV::BFS_DRK(double Upsi, double Uteta, double Ugamma, double Ux, double
 
 }
 
-void CS_ROV::writeDataForVMA()
+void CS_ROV::writeDataToPult()
 {
-    if (K[1] > 0) {//режим модели
-        model.tick(X[110][0], X[120][0], X[130][0], X[140][0], X[150][0],X[160][0],X[170][0],X[180][0],0.01);
+    pultProtocol->send_data.imuData.psi = X[301][0];
+    pultProtocol->send_data.imuData.teta = X[302][0];
+    pultProtocol->send_data.imuData.gamma = X[303][0];
+    pultProtocol->send_data.imuData.wx = X[304][0];
+    pultProtocol->send_data.imuData.wy = X[305][0];
+    pultProtocol->send_data.imuData.wz = X[306][0];
+}
+
+void CS_ROV::changePowerOffFlag(qint8 flag)
+{
+    if (vmaPowerOffFlag!=static_cast<bool>(pultProtocol->rec_data.thrusterPower)) {
+        vmaPowerOffFlag = static_cast<bool>(pultProtocol->rec_data.thrusterPower);
+        resetValues();
+    }
+
+}
+
+void CS_ROV::setModellingFlag(bool flag)
+{
+    if (modellingFlag!=flag) {
+        if (modellingFlag == false) resetValues();
+        modellingFlag = flag;
+    }
+}
+
+void CS_ROV::writeDataToVMA()
+{
+    if (K[0] > 0) {//режим модели
+        model.tick(X[111][0], X[121][0], X[131][0], X[141][0], X[151][0],X[161][0],X[171][0],X[181][0],0.01);
     }
     else {
-
-        vmaProtocol->setValues(X[110][0], X[120][0], X[130][0], X[140][0], X[150][0],X[160][0],X[170][0],X[180][0],vmaPowerFlag);
+        vmaProtocol->setValues(X[111][0], X[121][0], X[131][0], X[141][0], X[151][0],X[161][0],X[171][0],X[181][0],vmaPowerOffFlag);
     }
 }
