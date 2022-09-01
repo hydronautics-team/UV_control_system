@@ -26,7 +26,7 @@ public:
 public slots:
     virtual void start();
     virtual void stop();
-
+    void setValues(const float Upnp,const float Upnl,const float Uznl,const float Uznp, const float Upvp, const float Upvl, const float Uzvl, const float Uzvp, bool powerFlag);
 signals:
     void started();
     void finished();

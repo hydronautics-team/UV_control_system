@@ -43,19 +43,10 @@ public slots:
        //vn100_getCurrentAsyncData(&vn100, &data);
        vn100_getYawPitchRollTrueInertialAcclerationAngularRate(&vn100,&ypr,&inertialAcceleration,&angularRate);
        //vn100_getCalibratedImuMeasurements(&vn100,&magnetic,&inertialAcceleration,&angularRate, &temp);
-
-       //kx-pult
-        X[301][0] = ypr.yaw;
-        X[302][0] = ypr.pitch;
-        X[303][0] = ypr.roll;
-        X[304][0] = inertialAcceleration.c0;
-        X[305][0] = inertialAcceleration.c1;
-        X[306][0] = inertialAcceleration.c2;
-        X[307][0] = angularRate.c0;
-        X[308][0] = angularRate.c1;
-        X[309][0] = angularRate.c2;
-        X[310][0] = K[1]; //теперь значение этой переменной будет таким же как принятый коэффициент K1
     }
+    VnYpr const * const getYPR(){return &ypr;}
+
+    VnVector3 const * const getAngularRate(){return &angularRate;}
 protected:
     QTimer timer;
     Vn100 vn100;

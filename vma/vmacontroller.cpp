@@ -111,6 +111,21 @@ void VMAController::stop() {
     emit finished();
 }
 
+void VMAController::setValues(const float Upnp, const float Upnl, const float Uznl, const float Uznp, const float Upvp, const float Upvl, const float Uzvl, const float Uzvp, bool powerFlag)
+{
+    double scale=2;
+    if (K[99]!=0) scale = K[99];
+    vmaVector[0] = round(Upnp/scale)+K[98];
+    vmaVector[1] = round(Upnl/scale)+K[98];
+    vmaVector[2] = round(Uznl/scale)+K[98];
+    vmaVector[3] = round(Uznp/scale)+K[98];
+    vmaVector[4] = round(Upvp/scale)+K[98];
+    vmaVector[5] = round(Upvl/scale)+K[98];
+    vmaVector[6] = round(Uzvl/scale)+K[98];
+    vmaVector[7] = round(Uzvp/scale)+K[98];
+    (powerFlag)? vmaVector[8] = 0b10000000 : vmaVector[8]=0;
+}
+
 VMAController::~VMAController() {
     stop();
 }

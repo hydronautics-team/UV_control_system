@@ -13,11 +13,14 @@ TEMPLATE = app
 SOURCES += *.cpp\
           include_vn100/vn100.c\
           include_vn100/vncp_services.c \
+          vma/vmacontroller.cpp\
           kx_pult/kx_protocol.cpp\
           kx_pult/qkx_coeffs.cpp\
           kx_pult/qpiconfig.cpp
 
-HEADERS +=include_vn100/vectornav.h \
+HEADERS += *.h\
+          vma/vmacontroller.h\
+          include_vn100/vectornav.h \
           include_vn100/vectornavprotocol.h \
           include_vn100/vn100.h \
           include_vn100/vn_common.h \
