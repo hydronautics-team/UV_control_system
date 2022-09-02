@@ -45,15 +45,6 @@ void VMAController::start() {
 }
 
 void VMAController::tick() {
-//    vmaVector[0] = K[300];
-//    vmaVector[1] = K[301];
-//    vmaVector[2] = K[302];
-//    vmaVector[3] = K[303];
-//    vmaVector[4] = K[304];
-//    vmaVector[5] = K[305];
-//    vmaVector[6] = K[306];
-//    vmaVector[7] = K[307];
-//    vmaVector[8] = K[308]; //flags
     sendData();
 }
 
