@@ -91,12 +91,12 @@ void CS_ROV::regulators()
     X[105][0] = K[105]*X[95][0];
     X[106][0] = K[106]*X[96][0];
 
-    X[101][0] = K[1];//Upsi
-    X[102][0] = K[2];//Uteta
-    X[103][0] = K[3];//Ugamma
-    X[104][0] = K[4];//Ux
-    X[105][0] = K[5];//Uy
-    X[106][0] = K[6];//Uz
+//    X[101][0] = K[1];//Upsi
+//    X[102][0] = K[2];//Uteta
+//    X[103][0] = K[3];//Ugamma
+//    X[104][0] = K[4];//Ux
+//    X[105][0] = K[5];//Uy
+//    X[106][0] = K[6];//Uz
 }
 
 void CS_ROV::BFS_DRK(double Upsi, double Uteta, double Ugamma, double Ux, double Uy, double Uz)
