@@ -134,8 +134,8 @@ void CS_ROV::writeDataToPult()
 
 void CS_ROV::changePowerOffFlag(qint8 flag)
 {
-    if (vmaPowerOffFlag!=static_cast<bool>(pultProtocol->rec_data.thrusterPower)) {
-        vmaPowerOffFlag = static_cast<bool>(pultProtocol->rec_data.thrusterPower);
+    if (vmaPowerOffFlag!=static_cast<bool>(flag)) {
+        vmaPowerOffFlag = static_cast<bool>(flag);
         resetValues();
     }
 
