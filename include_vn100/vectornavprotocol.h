@@ -9,7 +9,7 @@
 #include <QThread>
 #include <QDebug>
 
-const char* const COM_PORT = "COM5";
+const char* const COM_PORT = "//dev//ttyUSB0";
 const int BAUD_RATE = 115200;
 
 //для использования kx-pult

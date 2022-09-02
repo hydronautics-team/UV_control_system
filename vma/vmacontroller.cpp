@@ -2,6 +2,7 @@
 #include <QSerialPort>
 #include <QIODevice>
 #include <QDebug>
+#include "math.h"
 
 VMAController::VMAController(const QString& portName,
                              const qint32 baud,
