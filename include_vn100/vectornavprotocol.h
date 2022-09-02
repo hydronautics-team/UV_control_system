@@ -25,7 +25,7 @@ public:
         moveToThread(thread);
         thread->start();
         vn100_connect(&vn100, COM_PORT, BAUD_RATE);
-        sleep(1000);
+        usleep(1000);
         connect(&timer, &QTimer::timeout, this, &VectorNavProtocol::tick);
     }
     virtual ~VectorNavProtocol(){

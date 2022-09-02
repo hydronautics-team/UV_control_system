@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMutex>
 #include <QTimer>
+#include "math.h"
 
 //для использования kx-pult
 extern double X[2000][2];

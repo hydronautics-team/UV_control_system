@@ -34,8 +34,8 @@
 #include <termios.h>
 #include <errno.h>
 #include <string.h>
-#include "vncp_services.h"
-#include "vn_errorCodes.h"
+#include "include_vn100/vncp_services.h"
+#include "include_vn100/vn_errorCodes.h"
 
 /* Private type declarations. ************************************************/
 typedef struct {

@@ -73,12 +73,12 @@ void CS_ROV::readDataFromPult()
 void CS_ROV::readDataFromSensors()
 {
     //kx-pult
-     X[301][0] = vn100Proto->getYPR()->yaw;
-     X[302][0] = vn100Proto->getYPR()->pitch;
-     X[303][0] = vn100Proto->getYPR()->roll;
-     X[304][0] = vn100Proto->getAngularRate()->c0; //wx
-     X[305][0] = vn100Proto->getAngularRate()->c1; //wy
-     X[306][0] = vn100Proto->getAngularRate()->c2; //wz
+     X[301][0] = vn100Proto->getYPR().yaw;
+     X[302][0] = vn100Proto->getYPR().pitch;
+     X[303][0] = vn100Proto->getYPR().roll;
+     X[304][0] = vn100Proto->getAngularRate().c0; //wx
+     X[305][0] = vn100Proto->getAngularRate().c1; //wy
+     X[306][0] = vn100Proto->getAngularRate().c2; //wz
 
 }
 
