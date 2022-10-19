@@ -46,6 +46,7 @@ void VMAController::start() {
 
 void VMAController::tick() {
     sendData();
+    X[55][0]++;
 }
 
 bool VMAController::sendData() {
