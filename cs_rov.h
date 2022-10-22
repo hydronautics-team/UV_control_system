@@ -2,7 +2,9 @@
 #define CS_ROV_H
 
 #include "rov_model.h"
-#include "include_vn100/vectornavprotocol.h"
+//#include "include_vn100/vectornavprotocol.h"
+#include "vectornav/vectornavprotocol.h"
+#include "logger/logger.h"
 #include <QThread>
 #include <QSettings>
 #include "pult_connection/pultcontrolsystemprotocols.h"
@@ -26,6 +28,9 @@ public:
 public slots:
     void tick();
     void resetValues();
+
+    VectorNavProtocol vectorNavProtocol("ttyUSB0");
+    Logger logger;
 public:
     double limit (double value, double limit){
         if(fabs(value)>limit) return (limit*sgn(value));
