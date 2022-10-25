@@ -125,7 +125,7 @@ struct ToPult {
     uint checksum;
 };
 
-//структура данных, которая передается из плнировщика в АНПА
+//структура данных, которая передается из планировщика в АНПА
 struct FromPult {
     // эти структуры и енумы реализованы в uv_state
     ControlData controlData;
@@ -134,6 +134,7 @@ struct FromPult {
 
     quint8 resetImu;
     quint8 thrusterPower;
+    quint8 experimentTypicalInput;
     uint checksum;
 };
 
@@ -159,6 +160,7 @@ public:
     ConnectionFlags connectionFlags;
     bool resetImu;
     bool thrusterPower;
+    bool experimentTypicalInput;
 };
 
 #endif // UV_STATE_H

@@ -55,7 +55,7 @@ void VectorNavProtocol::parseBuffer() {
     if ( m_buffer.size() <= 4 ) {
         return;
     }
-    QByteArray header((char*) &(data.header),sizeof(Header));
+    QByteArray header((char*) &(data.header),sizeof(HeaderVN));
     int index = m_buffer.indexOf(header);
     if (index == -1) {
         // Не найдено сообщение

@@ -2,8 +2,9 @@
 
 CS_ROV::CS_ROV(QObject *parent)
 {
-    logger.logStart();
-    QObject::connect(&vectorNavProtocol, &VectorNavProtocol::newMessageDetected,
+    //logger.logStart();
+    vn100Proto = new VectorNavProtocol("ttyUSB0");
+    QObject::connect(vn100Proto, &VectorNavProtocol::newMessageDetected,
                      &logger, &Logger::logTick);
 
     QSettings settings("settings/settings.ini", QSettings::IniFormat);
@@ -54,17 +55,19 @@ void CS_ROV::readDataFromPult()
     changePowerOffFlag(pultProtocol->rec_data.thrusterPower);
     if (K[0] > 0) setModellingFlag(true);
     else setModellingFlag(false);
+    if (pultProtocol->rec_data.experimentTypicalInput) logger.logStart();
+    else logger.logStop();
 }
 
 void CS_ROV::readDataFromSensors()
 {
     //kx-pult
-     X[301][0] = vn100Proto->getYPR().yaw;
-     X[302][0] = vn100Proto->getYPR().pitch;
-     X[303][0] = vn100Proto->getYPR().roll;
-     X[304][0] = vn100Proto->getAngularRate().c0; //wx
-     X[305][0] = vn100Proto->getAngularRate().c1; //wy
-     X[306][0] = vn100Proto->getAngularRate().c2; //wz
+     X[301][0] = vn100Proto->data.yaw;
+     X[302][0] = vn100Proto->data.pitch;
+     X[303][0] = vn100Proto->data.roll;
+     X[304][0] = vn100Proto->data.X_rate; //wx
+     X[305][0] = vn100Proto->data.Y_rate; //wy
+     X[306][0] = vn100Proto->data.Z_rate; //wz
 
 }
 

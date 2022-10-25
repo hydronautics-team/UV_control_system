@@ -1,5 +1,4 @@
 QT += core network
-QT -= gui
 QT += serialport
 
 CONFIG += c++11
@@ -10,15 +9,10 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-win32{
-    SOURCES+=include_vn100/windows/vncp_services.c
-}
-linux{
-      SOURCES+=include_vn100/linux/vncp_services.c
-}
 
 SOURCES += *.cpp\
-          include_vn100/vn100.c\
+          vectornav/vectornavprotocol.cpp\
+          logger/logger.cpp\
           vma/vmacontroller.cpp\
           kx_pult/kx_protocol.cpp\
           kx_pult/qkx_coeffs.cpp\
@@ -26,16 +20,9 @@ SOURCES += *.cpp\
           pult_connection/uv_state.cpp
 
 HEADERS += *.h\
+          vectornav/vectornavprotocol.h\
+          logger/logger.h\
           vma/vmacontroller.h\
-          include_vn100/vectornav.h \
-          include_vn100/vectornavprotocol.h \
-          include_vn100/vn100.h \
-          include_vn100/vn_common.h \
-          include_vn100/vn_errorCodes.h \
-          include_vn100/vn_kinematics.h \
-          include_vn100/vn_linearAlgebra.h \
-          include_vn100/vn_math.h \
-          include_vn100/vncp_services.h \
           kx_pult/kx_protocol.h\
           kx_pult/qkx_coeffs.h\
           kx_pult/qpiconfig.h\

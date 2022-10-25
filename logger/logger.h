@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QFile>
 #include <QTextStream>
-#include "vectornavprotocol.h"
+#include "vectornav/vectornavprotocol.h"
 
 class Logger : public QObject
 {
@@ -20,6 +20,7 @@ public slots:
 protected:
     QTextStream stream;
     QFile file;
+    bool writeLog = false;
 };
 
 #endif // LOGGER_H

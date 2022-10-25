@@ -2,7 +2,6 @@
 #define CS_ROV_H
 
 #include "rov_model.h"
-//#include "include_vn100/vectornavprotocol.h"
 #include "vectornav/vectornavprotocol.h"
 #include "logger/logger.h"
 #include <QThread>
@@ -29,8 +28,6 @@ public slots:
     void tick();
     void resetValues();
 
-    VectorNavProtocol vectorNavProtocol("ttyUSB0");
-    Logger logger;
 public:
     double limit (double value, double limit){
         if(fabs(value)>limit) return (limit*sgn(value));
@@ -39,7 +36,9 @@ public:
     template <typename T> int sgn(T val) {
         return (T(0) < val) - (val < T(0));
     }
+
 protected:
+    Logger logger;
     void readDataFromPult();
     void readDataFromSensors();
     void regulators();
