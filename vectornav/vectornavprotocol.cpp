@@ -12,7 +12,7 @@ VectorNavProtocol::VectorNavProtocol(QString portName, int baudRate, QObject *pa
     m_port.write(cmd, 19);
     m_port.waitForBytesWritten();
 
-    char cmd2[31] = "$VNWRG,75,2,4,01,0129*XX\r\n";//передаем какие данные будем принимать
+    char cmd2[31] = "$VNWRG,75,2,10,01,0129*XX\r\n";//передаем какие данные будем принимать
     m_port.write(cmd2, 30);
     m_port.waitForBytesWritten();
 
@@ -98,6 +98,7 @@ void VectorNavProtocol::parseBuffer() {
         stream >> msg.temp[1];
         stream >> msg.temp[0];
         emit newMessageDetected(msg);
+        data = msg;
         m_buffer.remove(0, index+49);
     }
     else {
