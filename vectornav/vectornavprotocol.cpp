@@ -16,21 +16,25 @@ VectorNavProtocol::VectorNavProtocol(QString portName, int baudRate, QObject *pa
     m_port.write(cmd2, 30);
     m_port.waitForBytesWritten();
 
+    QTimer *timer = new QTimer(this);
     connect(&m_port, &QSerialPort::readyRead, this, &VectorNavProtocol::readData);
+    connect(&m_port, &QSerialPort::readyRead, this, &VectorNavProtocol::readyReadForTimer);
+    connect(timer, &QTimer::timeout, this, &VectorNavProtocol::timeoutSlot);
+    timer->start(3000);
 
 }
 
 unsigned short VectorNavProtocol::calculateCRC(unsigned char data[], unsigned int length) {
-     unsigned int i;
-     unsigned short crc = 0;
-     for(i=0; i<length; i++){
-         char temp = data[i];
-         crc = (unsigned char)(crc >> 8) | (crc << 8);
-         crc ^= data[i];
-         crc ^= (unsigned char)(crc & 0xff) >> 4;
-         crc ^= crc << 12;
-         crc ^= (crc & 0x00ff) << 5;
-     }
+    unsigned int i;
+    unsigned short crc = 0;
+    for(i=0; i<length; i++){
+        char temp = data[i];
+        crc = (unsigned char)(crc >> 8) | (crc << 8);
+        crc ^= data[i];
+        crc ^= (unsigned char)(crc & 0xff) >> 4;
+        crc ^= crc << 12;
+        crc ^= (crc & 0x00ff) << 5;
+    }
     return crc;
 }
 
@@ -44,6 +48,21 @@ bool VectorNavProtocol::correctChecksum (QByteArray const &ba) {
     return false;
 }
 
+void VectorNavProtocol::readyReadForTimer() {
+    time.restart();
+}
+
+void VectorNavProtocol::timeoutSlot(){
+    double deltaTMax = 3000;
+    if (time.elapsed()>deltaTMax) {
+        m_port.setBaudRate(baudRate);
+        m_port.setPortName("ttyUSB0");
+        m_port.open(QIODevice::ReadWrite);
+
+        connect(&m_port, &QSerialPort::readyRead, this, &VectorNavProtocol::readData);
+    }
+}
+
 void VectorNavProtocol::readData() {
     m_buffer.append(m_port.readAll());
     parseBuffer();
@@ -55,7 +74,7 @@ void VectorNavProtocol::parseBuffer() {
     if ( m_buffer.size() <= 4 ) {
         return;
     }
-    QByteArray header((char*) &(data.header),sizeof(HeaderVN));
+    QByteArray header((char*) &(data.header),sizeof(Header));
     int index = m_buffer.indexOf(header);
     if (index == -1) {
         // Не найдено сообщение
@@ -98,7 +117,6 @@ void VectorNavProtocol::parseBuffer() {
         stream >> msg.temp[1];
         stream >> msg.temp[0];
         emit newMessageDetected(msg);
-        data = msg;
         m_buffer.remove(0, index+49);
     }
     else {
