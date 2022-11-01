@@ -9,6 +9,7 @@ UV_State::UV_State() {
     }
 
     resetImu = false;
+    experimentTypicalInput = false;
     thrusterPower = true;
 }
 

@@ -2,8 +2,10 @@
 
 CS_ROV::CS_ROV(QObject *parent)
 {
-    vn100Proto = new VectorNavProtocol();
-    vn100Proto->start(100);
+    //logger.logStart();
+    vn100Proto = new VectorNavProtocol("ttyUSB0");
+    QObject::connect(vn100Proto, &VectorNavProtocol::newMessageDetected,
+                     &logger, &Logger::logTick);
 
     QSettings settings("settings/settings.ini", QSettings::IniFormat);
     settings.beginGroup("Port");
@@ -17,21 +19,6 @@ CS_ROV::CS_ROV(QObject *parent)
 
     pultProtocol = new ControlSystem::PC_Protocol(ConfigFile,"rov_pult");
 
-//    controlProtocol->send_data.imuData.ax = 1;
-//    controlProtocol->send_data.imuData.ay = 2;
-//    controlProtocol->send_data.imuData.az = 3;
-//    controlProtocol->send_data.imuData.gamma = 4;
-//    controlProtocol->send_data.imuData.psi = 5;
-//    controlProtocol->send_data.imuData.teta = 6;
-//    controlProtocol->send_data.imuData.q0 = 7;
-//    controlProtocol->send_data.imuData.q1 = 8;
-//    controlProtocol->send_data.imuData.q2 = 9;
-//    controlProtocol->send_data.imuData.q3 = 10;
-//    controlProtocol->send_data.depth = 11;
-//    controlProtocol->send_data.connectionFlags.controlSystem = 0;
-//    controlProtocol->send_data.connectionFlags.joystick = 1;
-//    controlProtocol->send_data.connectionFlags.thrusterController = 0;
-//    controlProtocol->send_data.connectionFlags.vectorNav = 1;
     qDebug() << "-----start exchange";
     pultProtocol->startExchange();
 
@@ -68,17 +55,19 @@ void CS_ROV::readDataFromPult()
     changePowerOffFlag(pultProtocol->rec_data.thrusterPower);
     if (K[0] > 0) setModellingFlag(true);
     else setModellingFlag(false);
+    if (pultProtocol->rec_data.experimentTypicalInput) logger.logStart();
+    else logger.logStop();
 }
 
 void CS_ROV::readDataFromSensors()
 {
     //kx-pult
-     X[301][0] = vn100Proto->getYPR().yaw;
-     X[302][0] = vn100Proto->getYPR().pitch;
-     X[303][0] = vn100Proto->getYPR().roll;
-     X[304][0] = vn100Proto->getAngularRate().c0; //wx
-     X[305][0] = vn100Proto->getAngularRate().c1; //wy
-     X[306][0] = vn100Proto->getAngularRate().c2; //wz
+     X[301][0] = vn100Proto->data.yaw;
+     X[302][0] = vn100Proto->data.pitch;
+     X[303][0] = vn100Proto->data.roll;
+     X[304][0] = vn100Proto->data.X_rate; //wx
+     X[305][0] = vn100Proto->data.Y_rate; //wy
+     X[306][0] = vn100Proto->data.Z_rate; //wz
 
 }
 
@@ -152,9 +141,9 @@ void CS_ROV::setModellingFlag(bool flag)
 void CS_ROV::writeDataToVMA()
 {
     if (modellingFlag) {//режим модели
-        model.tick(X[111][0], X[121][0], X[131][0], X[141][0], X[151][0],X[161][0],X[171][0],X[181][0],0.01);
+        model.tick(X[111][0], X[121][0], X[131][0], X[141][0], X[151][0], X[161][0], X[171][0], X[181][0], 0.01);
     }
     else {
-      vmaProtocol->setValues(X[111][0], X[161][0], X[121][0], X[151][0], X[131][0],X[181][0],X[171][0],X[141][0],vmaPowerOffFlag);
+      vmaProtocol->setValues(X[111][0], X[161][0], X[121][0], X[151][0], X[131][0], X[181][0], X[171][0], X[141][0], vmaPowerOffFlag);
     }
 }

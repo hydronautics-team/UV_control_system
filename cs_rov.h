@@ -2,7 +2,8 @@
 #define CS_ROV_H
 
 #include "rov_model.h"
-#include "include_vn100/vectornavprotocol.h"
+#include "vectornav/vectornavprotocol.h"
+#include "logger/logger.h"
 #include <QThread>
 #include <QSettings>
 #include "pult_connection/pultcontrolsystemprotocols.h"
@@ -26,6 +27,7 @@ public:
 public slots:
     void tick();
     void resetValues();
+
 public:
     double limit (double value, double limit){
         if(fabs(value)>limit) return (limit*sgn(value));
@@ -34,7 +36,9 @@ public:
     template <typename T> int sgn(T val) {
         return (T(0) < val) - (val < T(0));
     }
+
 protected:
+    Logger logger;
     void readDataFromPult();
     void readDataFromSensors();
     void regulators();
