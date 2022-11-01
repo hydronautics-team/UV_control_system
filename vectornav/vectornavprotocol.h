@@ -5,11 +5,12 @@
 #include <QSerialPort>
 #include <QDebug>
 #include <QTimer>
+#include <QTime>
 ;
 //класс протокола
 #pragma pack(push,1)
 //тут сделала заглушку для заголовка послыки от VectorNav
-struct Header {
+struct Header_VN {
     uint8_t sync = 0xFA;
     uint8_t group = 0x01;
     uint16_t group_1_fields = 0x0129;
@@ -17,7 +18,7 @@ struct Header {
 
 //сама структура, которая приходит от VectorNav
 struct DataFromVectorNav {
-    Header header;
+    Header_VN header;
     uint64_t TimeStartup=0;
     float yaw = 0;
     float pitch=0;

@@ -2,6 +2,7 @@
 #include <QDataStream>
 #include <QFile>
 
+
 VectorNavProtocol::VectorNavProtocol(QString portName, int baudRate, QObject *parent)
 {
     m_port.setBaudRate(baudRate);
@@ -41,7 +42,7 @@ unsigned short VectorNavProtocol::calculateCRC(unsigned char data[], unsigned in
 
 bool VectorNavProtocol::correctChecksum (QByteArray const &ba) {
     if (calculateCRC((unsigned char*)ba.data(), ba.size()) == 0) {
-        qDebug() << "true ";
+//        qDebug() << "true ";
         return true;
     }
     qDebug() << "false ";
@@ -55,11 +56,15 @@ void VectorNavProtocol::readyReadForTimer() {
 void VectorNavProtocol::timeoutSlot(){
     double deltaTMax = 3000;
     if (time.elapsed()>deltaTMax) {
-        m_port.setBaudRate(baudRate);
-        m_port.setPortName("ttyUSB0");
-        m_port.open(QIODevice::ReadWrite);
+        char cmd[20] = "$VNWRG,06,0*XX\r\n";//отключаем передачу данных ACSII
+        m_port.write(cmd, 19);
+        m_port.waitForBytesWritten();
 
-        connect(&m_port, &QSerialPort::readyRead, this, &VectorNavProtocol::readData);
+        char cmd2[31] = "$VNWRG,75,2,10,01,0129*XX\r\n";//передаем какие данные будем принимать
+        m_port.write(cmd2, 30);
+        m_port.waitForBytesWritten();
+
+        time.restart();
     }
 }
 
@@ -74,7 +79,7 @@ void VectorNavProtocol::parseBuffer() {
     if ( m_buffer.size() <= 4 ) {
         return;
     }
-    QByteArray header((char*) &(data.header),sizeof(Header));
+    QByteArray header((char*) &(data.header),sizeof(Header_VN));
     int index = m_buffer.indexOf(header);
     if (index == -1) {
         // Не найдено сообщение
@@ -117,6 +122,7 @@ void VectorNavProtocol::parseBuffer() {
         stream >> msg.temp[1];
         stream >> msg.temp[0];
         emit newMessageDetected(msg);
+        data = msg;
         m_buffer.remove(0, index+49);
     }
     else {
