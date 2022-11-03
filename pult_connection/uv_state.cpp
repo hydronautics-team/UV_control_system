@@ -104,3 +104,12 @@ ConnectionFlags::ConnectionFlags() {
     controlSystem = 0;
     thrusterController = 0;
 }
+
+SinTest::SinTest() {
+    u0 = 0;
+    a = 0;
+    w = 0;
+    k = 0;
+    h = 0;
+    selectedContour = e_StabilizationContours::CONTOUR_YAW;
+}

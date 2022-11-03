@@ -117,6 +117,17 @@ struct ConnectionFlags {
     quint8 thrusterController;
 };
 
+struct SinTest {
+    SinTest();
+    double u0;
+    double a;
+    double w;
+    double k;
+    double h;
+    e_StabilizationContours selectedContour;
+
+};
+
 struct ToPult {
     ImuData imuData;
     float depth;
@@ -131,6 +142,7 @@ struct FromPult {
     ControlData controlData;
     ControlContoursFlags controlContoursFlags;
     e_CSMode cSMode;
+    SinTest sinTest;
 
     quint8 resetImu;
     quint8 thrusterPower;
