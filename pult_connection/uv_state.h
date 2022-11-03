@@ -119,6 +119,7 @@ struct ConnectionFlags {
 
 struct SinTest {
     SinTest();
+    quint8 sinSignal;
     double u0;
     double a;
     double w;
@@ -147,7 +148,6 @@ struct FromPult {
     quint8 resetImu;
     quint8 thrusterPower;
     quint8 experimentTypicalInput;
-    quint8 sinSignal;
     uint checksum;
 };
 

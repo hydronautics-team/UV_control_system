@@ -11,7 +11,6 @@ UV_State::UV_State() {
     resetImu = false;
     experimentTypicalInput = false;
     thrusterPower = true;
-    sinSignal = false;
 }
 
 UV_State::~UV_State() {
@@ -106,6 +105,7 @@ ConnectionFlags::ConnectionFlags() {
 }
 
 SinTest::SinTest() {
+    sinSignal = false;
     u0 = 0;
     a = 0;
     w = 0;

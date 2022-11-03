@@ -45,17 +45,23 @@ void CS_ROV::resetValues()
 
 void CS_ROV::readDataFromPult()
 {
-    if (pultProtocol->rec_data.sinSignal == 0) {
-        X[91][0] = pultProtocol->rec_data.controlData.yaw;
-        X[92][0] = pultProtocol->rec_data.controlData.pitch;
-        X[93][0] = pultProtocol->rec_data.controlData.roll;
-        X[94][0] = pultProtocol->rec_data.controlData.march;
-        X[95][0] = pultProtocol->rec_data.controlData.lag;
-        X[96][0] = pultProtocol->rec_data.controlData.depth; }
+    X[91][0] = pultProtocol->rec_data.controlData.yaw;
+    X[92][0] = pultProtocol->rec_data.controlData.pitch;
+    X[93][0] = pultProtocol->rec_data.controlData.roll;
+    X[94][0] = pultProtocol->rec_data.controlData.march;
+    X[95][0] = pultProtocol->rec_data.controlData.lag;
+    X[96][0] = pultProtocol->rec_data.controlData.depth;
     X[97][0] = pultProtocol->rec_data.thrusterPower;
-    X[98][0] = pultProtocol->rec_data.sinSignal;
+
+    X[201][0] = pultProtocol->rec_data.sinTest.sinSignal;
+    X[202][0] = pultProtocol->rec_data.sinTest.a;
+    X[203][0] = pultProtocol->rec_data.sinTest.w;
+    X[204][0] = pultProtocol->rec_data.sinTest.k;
+    X[205][0] = pultProtocol->rec_data.sinTest.h;
+
     changePowerOffFlag(pultProtocol->rec_data.thrusterPower);
-    if (K[ 0] > 0) setModellingFlag(true);
+    changeSinSignalFlag(pultProtocol->rec_data.sinTest.sinSignal);
+    if (K[0] > 0) setModellingFlag(true);
     else setModellingFlag(false);
     if (pultProtocol->rec_data.experimentTypicalInput) logger.logStart();
     else logger.logStop();
@@ -132,6 +138,13 @@ void CS_ROV::changePowerOffFlag(qint8 flag)
 
 }
 
+void CS_ROV::changeSinSignalFlag(qint8 sinflag)
+{
+    if (generationSinFlag==static_cast<bool>(sinflag)) {
+        X[101][0] = X[201][0] + X[202][0]*sin(X[203][0]*X[204][0]*X[205][0]);}
+        //X[101][0] = U0 + A*sin(w*k*h);
+}
+
 void CS_ROV::setModellingFlag(bool flag)
 {
     if (modellingFlag!=flag) {
@@ -149,3 +162,4 @@ void CS_ROV::writeDataToVMA()
       vmaProtocol->setValues(X[111][0], X[161][0], X[121][0], X[151][0], X[131][0], X[181][0], X[171][0], X[141][0], vmaPowerOffFlag);
     }
 }
+

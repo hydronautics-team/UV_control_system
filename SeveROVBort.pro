@@ -11,8 +11,6 @@ TEMPLATE = app
 
 
 SOURCES += *.cpp\
-          sin_generation.cpp \
-          sin_generation/sin_generation.cpp \
           vectornav/vectornavprotocol.cpp\
           logger/logger.cpp\
           vma/vmacontroller.cpp\
@@ -22,8 +20,6 @@ SOURCES += *.cpp\
           pult_connection/uv_state.cpp
 
 HEADERS += *.h\
-          sin_generation.h \
-          sin_generation/sin_generation.h \
           vectornav/vectornavprotocol.h\
           logger/logger.h\
           vma/vmacontroller.h\
