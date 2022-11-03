@@ -135,6 +135,7 @@ struct FromPult {
     quint8 resetImu;
     quint8 thrusterPower;
     quint8 experimentTypicalInput;
+    quint8 sinSignal;
     uint checksum;
 };
 
@@ -161,6 +162,7 @@ public:
     bool resetImu;
     bool thrusterPower;
     bool experimentTypicalInput;
+    bool sinSignal;
 };
 
 #endif // UV_STATE_H

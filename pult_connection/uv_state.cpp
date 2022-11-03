@@ -11,6 +11,7 @@ UV_State::UV_State() {
     resetImu = false;
     experimentTypicalInput = false;
     thrusterPower = true;
+    sinSignal = false;
 }
 
 UV_State::~UV_State() {

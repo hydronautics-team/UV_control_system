@@ -45,15 +45,17 @@ void CS_ROV::resetValues()
 
 void CS_ROV::readDataFromPult()
 {
-    X[91][0] = pultProtocol->rec_data.controlData.yaw;
-    X[92][0] = pultProtocol->rec_data.controlData.pitch;
-    X[93][0] = pultProtocol->rec_data.controlData.roll;
-    X[94][0] = pultProtocol->rec_data.controlData.march;
-    X[95][0] = pultProtocol->rec_data.controlData.lag;
-    X[96][0] = pultProtocol->rec_data.controlData.depth;
+    if (pultProtocol->rec_data.sinSignal == 0) {
+        X[91][0] = pultProtocol->rec_data.controlData.yaw;
+        X[92][0] = pultProtocol->rec_data.controlData.pitch;
+        X[93][0] = pultProtocol->rec_data.controlData.roll;
+        X[94][0] = pultProtocol->rec_data.controlData.march;
+        X[95][0] = pultProtocol->rec_data.controlData.lag;
+        X[96][0] = pultProtocol->rec_data.controlData.depth; }
     X[97][0] = pultProtocol->rec_data.thrusterPower;
+    X[98][0] = pultProtocol->rec_data.sinSignal;
     changePowerOffFlag(pultProtocol->rec_data.thrusterPower);
-    if (K[0] > 0) setModellingFlag(true);
+    if (K[ 0] > 0) setModellingFlag(true);
     else setModellingFlag(false);
     if (pultProtocol->rec_data.experimentTypicalInput) logger.logStart();
     else logger.logStop();
