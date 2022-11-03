@@ -81,12 +81,19 @@ void CS_ROV::readDataFromSensors()
 
 void CS_ROV::regulators()
 {
-    X[101][0] = K[101]*X[91][0];
+
     X[102][0] = K[102]*X[92][0];
     X[103][0] = K[103]*X[93][0];
     X[104][0] = K[104]*X[94][0];
     X[105][0] = K[105]*X[95][0];
     X[106][0] = K[106]*X[96][0];
+
+    if (pultProtocol->rec_data.sinTest.sinSignal) {
+        X[101][0] = X[201][0] + X[202][0]*sin(X[203][0]*timeForSinus.elapsed()*0.001);
+    }
+    else X[101][0] = K[101]*X[91][0];
+
+        //X[101][0] = U0 + A*sin(w*k*h);
 
 //    X[101][0] = K[1];//Upsi
 //    X[102][0] = K[2];//Uteta
@@ -140,9 +147,10 @@ void CS_ROV::changePowerOffFlag(qint8 flag)
 
 void CS_ROV::changeSinSignalFlag(qint8 sinflag)
 {
-    if (generationSinFlag==static_cast<bool>(sinflag)) {
-        X[101][0] = X[201][0] + X[202][0]*sin(X[203][0]*X[204][0]*X[205][0]);}
-        //X[101][0] = U0 + A*sin(w*k*h);
+    if (generationSinFlag!=sinflag){
+        if (sinflag) timeForSinus.start();
+        generationSinFlag = sinflag;
+    }
 }
 
 void CS_ROV::setModellingFlag(bool flag)

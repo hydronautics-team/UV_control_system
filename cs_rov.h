@@ -10,6 +10,7 @@
 #include "vma/vmacontroller.h"
 #include "math.h"
 #include <qmath.h>
+#include <QTime>
 
 const QString ConfigFile = "protocols.conf";
 const QString XI = "xi";
@@ -57,7 +58,8 @@ protected:
     QThread vmaThread;
     bool vmaPowerOffFlag = true;
     bool modellingFlag = true;
-    bool generationSinFlag = true;
+    qint8 generationSinFlag;
+    QTime timeForSinus;
 };
 
 #endif // CS_ROV_H
