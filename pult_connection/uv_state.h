@@ -126,7 +126,6 @@ struct SinTest {
     double k;
     double h;
     e_StabilizationContours selectedContour;
-
 };
 
 struct ToPult {
@@ -162,6 +161,7 @@ public:
 
     ControlContoursFlags controlContoursFlags;
     e_CSMode cSMode;
+    SinTest sinTest;
 
     ImuData imuData;
     MoutionDataAfterAlgoritms moutionDataAfterAlgoritms;
@@ -174,7 +174,6 @@ public:
     bool resetImu;
     bool thrusterPower;
     bool experimentTypicalInput;
-    bool sinSignal;
 };
 
 #endif // UV_STATE_H
