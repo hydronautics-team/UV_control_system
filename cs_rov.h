@@ -11,6 +11,7 @@
 #include "math.h"
 #include <qmath.h>
 #include <QTime>
+#include <QDebug>
 
 const QString ConfigFile = "protocols.conf";
 const QString XI = "xi";

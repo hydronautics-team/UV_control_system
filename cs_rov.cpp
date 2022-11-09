@@ -53,7 +53,7 @@ void CS_ROV::readDataFromPult()
     X[96][0] = pultProtocol->rec_data.controlData.depth;
     X[97][0] = pultProtocol->rec_data.thrusterPower;
 
-    X[201][0] = pultProtocol->rec_data.sinTest.sinSignal;
+    X[201][0] = pultProtocol->rec_data.sinTest.u0;
     X[202][0] = pultProtocol->rec_data.sinTest.a;
     X[203][0] = pultProtocol->rec_data.sinTest.w;
     X[204][0] = pultProtocol->rec_data.sinTest.k;
@@ -89,7 +89,7 @@ void CS_ROV::regulators()
     X[106][0] = K[106]*X[96][0];
 
     if (pultProtocol->rec_data.sinTest.sinSignal) {
-        X[101][0] = X[201][0] + X[202][0]*sin(X[203][0]*timeForSinus.elapsed()*0.001);
+        X[101][0] = K[101] * (X[201][0] + X[202][0]*sin(X[203][0]*timeForSinus.elapsed()*0.001));
     }
     else X[101][0] = K[101]*X[91][0];
 
@@ -168,6 +168,8 @@ void CS_ROV::writeDataToVMA()
     }
     else {
       vmaProtocol->setValues(X[111][0], X[161][0], X[121][0], X[151][0], X[131][0], X[181][0], X[171][0], X[141][0], vmaPowerOffFlag);
+//      qDebug() << X[111][0];
+//      qDebug() << vmaPowerOffFlag;
     }
 }
 
