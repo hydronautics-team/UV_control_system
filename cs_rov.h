@@ -10,6 +10,8 @@
 #include "vma/vmacontroller.h"
 #include "math.h"
 #include <qmath.h>
+#include <QTime>
+#include <QDebug>
 
 const QString ConfigFile = "protocols.conf";
 const QString XI = "xi";
@@ -46,6 +48,7 @@ protected:
     void writeDataToVMA();
     void writeDataToPult();
     void changePowerOffFlag(qint8 flag);
+    void changeSinSignalFlag(qint8 sinflag);
     void setModellingFlag(bool);
     VectorNavProtocol *vn100Proto = nullptr;
     VMAController* vmaProtocol = nullptr;
@@ -56,6 +59,8 @@ protected:
     QThread vmaThread;
     bool vmaPowerOffFlag = true;
     bool modellingFlag = true;
+    qint8 generationSinFlag;
+    QTime timeForSinus;
 };
 
 #endif // CS_ROV_H

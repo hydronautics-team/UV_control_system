@@ -36,7 +36,7 @@ void Logger::logTick(DataFromVectorNav msg) {
         stream2 << QTime::currentTime().toString("hh-mm-ss-zz") << " , " << msg.TimeStartup <<" , " <<  msg.yaw <<" , "<< msg.pitch<< " , " << msg.roll <<" , "<< msg.X_rate <<" , "<< \
         msg.Y_rate << " , "<< msg.Z_rate << " , " << msg.X_accel << " , "<< msg.Y_accel << " , " << msg.Z_accel<<" , " \
         << X[111][0]<<" , "<<X[121][0]<<" , "<<X[131][0]<<" , "<<X[141][0]<<" , "<<X[151][0]<<" , "<<X[161][0]<<" , "<<X[171][0]<<" , "<<X[181][0]<<"\n";
-        qDebug()<<"stream2 << QTime::currentTime().toString";
+//        qDebug()<<"stream2 << QTime::currentTime().toString";
     }
  }
 

@@ -119,13 +119,13 @@ struct ConnectionFlags {
 
 struct SinTest {
     SinTest();
+    quint8 sinSignal;
     double u0;
     double a;
     double w;
     double k;
     double h;
     e_StabilizationContours selectedContour;
-
 };
 
 struct ToPult {
@@ -161,6 +161,7 @@ public:
 
     ControlContoursFlags controlContoursFlags;
     e_CSMode cSMode;
+    SinTest sinTest;
 
     ImuData imuData;
     MoutionDataAfterAlgoritms moutionDataAfterAlgoritms;

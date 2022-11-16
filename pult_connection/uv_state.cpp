@@ -105,6 +105,7 @@ ConnectionFlags::ConnectionFlags() {
 }
 
 SinTest::SinTest() {
+    sinSignal = false;
     u0 = 0;
     a = 0;
     w = 0;
