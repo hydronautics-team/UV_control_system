@@ -12,8 +12,9 @@
 //тут сделала заглушку для заголовка послыки от VectorNav
 struct Header_VN {
     uint8_t sync = 0xFA;
-    uint8_t group = 0x01;
+    uint8_t group = 0x05;
     uint16_t group_1_fields = 0x0129;
+    uint16_t group_2_fields = 0x0008;
 };
 
 //сама структура, которая приходит от VectorNav
@@ -29,6 +30,9 @@ struct DataFromVectorNav {
     float X_accel=0;
     float Y_accel=0;
     float Z_accel=0;
+    float guro_X=0;
+    float guro_Y=0;
+    float guro_Z=0;
     union {
         unsigned short crc=0;
         uint8_t temp[2];

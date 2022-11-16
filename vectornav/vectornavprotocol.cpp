@@ -13,8 +13,8 @@ VectorNavProtocol::VectorNavProtocol(QString portName, int baudRate, QObject *pa
     m_port.write(cmd, 19);
     m_port.waitForBytesWritten();
 
-    char cmd2[31] = "$VNWRG,75,2,10,01,0129*XX\r\n";//передаем какие данные будем принимать
-    m_port.write(cmd2, 30);
+    char cmd2[39] = "$VNWRG,75,2,10,05,0129,0008*XX\r\n";//передаем какие данные будем принимать
+    m_port.write(cmd2, 40);
     m_port.waitForBytesWritten();
 
     QTimer *timer = new QTimer(this);
@@ -60,8 +60,8 @@ void VectorNavProtocol::timeoutSlot(){
         m_port.write(cmd, 19);
         m_port.waitForBytesWritten();
 
-        char cmd2[31] = "$VNWRG,75,2,10,01,0129*XX\r\n";//передаем какие данные будем принимать
-        m_port.write(cmd2, 30);
+        char cmd2[39] = "$VNWRG,75,2,10,05,0129,0008*XX\r\n";//передаем какие данные будем принимать
+        m_port.write(cmd2, 40);
         m_port.waitForBytesWritten();
 
         time.restart();
@@ -86,19 +86,20 @@ void VectorNavProtocol::parseBuffer() {
         qDebug() << "нет сообщения в буфере ";
         return;
     }
-    if ( m_buffer.size() <= index + 49 ) {
+    if ( m_buffer.size() <= index + 63 ) {
         return;
     }
-    if (correctChecksum(m_buffer.mid(index+1, 49))) {
+    if (correctChecksum(m_buffer.mid(index+1, 63))) {
         //qDebug()<<++count;
         DataFromVectorNav msg;
-        auto tmp = m_buffer.mid(index, 49);
+        auto tmp = m_buffer.mid(index, 63);
         QDataStream stream(&tmp, QIODevice::ReadOnly);
         stream.setByteOrder(QDataStream::LittleEndian);
         stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
         stream >> msg.header.sync;
         stream >> msg.header.group;
         stream >> msg.header.group_1_fields;
+        stream >> msg.header.group_2_fields;
         stream >> msg.TimeStartup;
         //qDebug() << "TimeStartup: " <<msg.TimeStartup;
         stream >> msg.yaw;
@@ -119,11 +120,17 @@ void VectorNavProtocol::parseBuffer() {
         //qDebug() << "Y_accel: " <<msg.Y_accel;
         stream >> msg.Z_accel;
         //qDebug() << "Z_accel: " <<msg.Z_accel;
+        stream >> msg.guro_X;
+        //qDebug() << "guro_X: " <<msg.guro_X;
+        stream >> msg.guro_Y;
+        //qDebug() << "guro_Y: " <<msg.guro_Y;
+        stream >> msg.guro_Z;
+        //qDebug() << "guro_Z: " <<msg.guro_Z;
         stream >> msg.temp[1];
         stream >> msg.temp[0];
         emit newMessageDetected(msg);
         data = msg;
-        m_buffer.remove(0, index+49);
+        m_buffer.remove(0, index+63);
     }
     else {
         m_buffer.remove(0, index+1);
