@@ -1,4 +1,5 @@
 #include "vectornavprotocol.h"
+#include "rov_model.h"
 #include <QDataStream>
 #include <QFile>
 
@@ -13,8 +14,8 @@ VectorNavProtocol::VectorNavProtocol(QString portName, int baudRate, QObject *pa
     m_port.write(cmd, 19);
     m_port.waitForBytesWritten();
 
-    char cmd2[39] = "$VNWRG,75,2,10,05,0129,0008*XX\r\n";//передаем какие данные будем принимать
-    m_port.write(cmd2, 40);
+    char cmd2[31] = "$VNWRG,75,2,10,01,0129*XX\r\n";//передаем какие данные будем принимать
+    m_port.write(cmd2, 30);
     m_port.waitForBytesWritten();
 
     QTimer *timer = new QTimer(this);
@@ -60,8 +61,8 @@ void VectorNavProtocol::timeoutSlot(){
         m_port.write(cmd, 19);
         m_port.waitForBytesWritten();
 
-        char cmd2[39] = "$VNWRG,75,2,10,05,0129,0008*XX\r\n";//передаем какие данные будем принимать
-        m_port.write(cmd2, 40);
+        char cmd2[31] = "$VNWRG,75,2,10,01,0129*XX\r\n";//передаем какие данные будем принимать
+        m_port.write(cmd2, 30);
         m_port.waitForBytesWritten();
 
         time.restart();
@@ -86,13 +87,13 @@ void VectorNavProtocol::parseBuffer() {
         qDebug() << "нет сообщения в буфере ";
         return;
     }
-    if ( m_buffer.size() <= index + 63 ) {
+    if ( m_buffer.size() <= index + 49 ) {
         return;
     }
-    if (correctChecksum(m_buffer.mid(index+1, 63))) {
+    if (correctChecksum(m_buffer.mid(index+1, 49))) {
         //qDebug()<<++count;
         DataFromVectorNav msg;
-        auto tmp = m_buffer.mid(index, 63);
+        auto tmp = m_buffer.mid(index, 49);
         QDataStream stream(&tmp, QIODevice::ReadOnly);
         stream.setByteOrder(QDataStream::LittleEndian);
         stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -104,6 +105,7 @@ void VectorNavProtocol::parseBuffer() {
         //qDebug() << "TimeStartup: " <<msg.TimeStartup;
         stream >> msg.yaw;
         //qDebug() << "yaw: " <<msg.yaw;
+        X[201][0] = msg.yaw;
         stream >>msg.pitch;
         //qDebug() << "pitch: " <<msg.pitch;
         stream >> msg.roll;
@@ -113,6 +115,7 @@ void VectorNavProtocol::parseBuffer() {
         stream >>msg.Y_rate;
         //qDebug() << "Y_rate: " <<msg.Y_rate;
         stream >> msg.Z_rate;
+        X[205][0] = msg.Z_rate;
         //qDebug() << "Z_rate: " <<msg.Z_rate;
         stream >> msg.X_accel;
         //qDebug() << "X_accel: " <<msg.X_accel;
@@ -120,17 +123,11 @@ void VectorNavProtocol::parseBuffer() {
         //qDebug() << "Y_accel: " <<msg.Y_accel;
         stream >> msg.Z_accel;
         //qDebug() << "Z_accel: " <<msg.Z_accel;
-        stream >> msg.guro_X;
-        //qDebug() << "guro_X: " <<msg.guro_X;
-        stream >> msg.guro_Y;
-        //qDebug() << "guro_Y: " <<msg.guro_Y;
-        stream >> msg.guro_Z;
-        //qDebug() << "guro_Z: " <<msg.guro_Z;
         stream >> msg.temp[1];
         stream >> msg.temp[0];
         emit newMessageDetected(msg);
         data = msg;
-        m_buffer.remove(0, index+63);
+        m_buffer.remove(0, index+49);
     }
     else {
         m_buffer.remove(0, index+1);

@@ -26,6 +26,7 @@ public:
     void start(int dt){
         timer.start(dt);
     }
+
 public slots:
     void tick();
     void resetValues();
