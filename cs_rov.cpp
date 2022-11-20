@@ -54,11 +54,11 @@ void CS_ROV::readDataFromPult()
     X[96][0] = pultProtocol->rec_data.controlData.depth;
     X[97][0] = pultProtocol->rec_data.thrusterPower;
 
-    X[201][0] = pultProtocol->rec_data.sinTest.u0;
-    X[202][0] = pultProtocol->rec_data.sinTest.a;
-    X[203][0] = pultProtocol->rec_data.sinTest.w;
-    X[204][0] = pultProtocol->rec_data.sinTest.k;
-    X[205][0] = pultProtocol->rec_data.sinTest.h;
+    X[211][0] = pultProtocol->rec_data.sinTest.u0;
+    X[212][0] = pultProtocol->rec_data.sinTest.a;
+    X[213][0] = pultProtocol->rec_data.sinTest.w;
+    X[214][0] = pultProtocol->rec_data.sinTest.k;
+    X[215][0] = pultProtocol->rec_data.sinTest.h;
 
     changePowerOffFlag(pultProtocol->rec_data.thrusterPower);
     changeSinSignalFlag(pultProtocol->rec_data.sinTest.sinSignal);
@@ -96,22 +96,24 @@ void CS_ROV::regulators()
     else {
         int t_shag=10;
         X[202][0] = X[91][0]-X[201][0]; //ошибка по углу
-        X[203][0] = K[101]*X[202][0];
-        X[204][0] = K[103]*X[91][0];
-        if (K[105] == 0) {  //K[105] - флаг регулятора
-           X[206][0] = K[102]*X[205][0];
-           X[101][0] = X[203][0]+X[204][0]-X[206][0];
+        if (K[125] == 0) {  //K[125] - флаг регулятора
+           X[203][0] = K[121]*X[202][0];
+           X[206][0] = K[122]*X[205][0];
+           X[204][0] = K[123]*X[91][0];
+           X[101][0] = K[160]*(X[203][0]+X[204][0]-X[206][0]);
         }
-        if (K[105] == 1) {
+        if (K[125] == 1) {
            //K[111]=121; коэффициент усиления звена
            //K[112]=0,1; //постоянная времени для апериодического звена
            //K[113]=0,126; //постоянная времени для дифференцирования
+                X[203][0] = K[131]*X[202][0];
+                X[204][0] = K[133]*X[91][0];
                 X[206][0] = X[207][0]+ 10*0,001*(1/K[112])*(X[205][0]*K[111]-X[207][0]);
                 X[207][0]= X[206][0];//запоминаем значение с этого шага для апериодич. звена
                 X[208][0]= (K[113]*(X[206][0]-X[209][0])/(t_shag*0.001));
                 X[209][0]= X[208][0];//запоминаем значение с этого шага для дифференцирования
                 X[210][0]= X[208][0] + X[206][0];
-           X[101][0] = X[203][0]+X[204][0]-X[210][0];
+           X[101][0] = K[160]*(X[203][0]+X[204][0]-X[210][0]);
         }
 
     }

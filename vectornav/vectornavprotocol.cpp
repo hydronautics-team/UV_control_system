@@ -100,7 +100,6 @@ void VectorNavProtocol::parseBuffer() {
         stream >> msg.header.sync;
         stream >> msg.header.group;
         stream >> msg.header.group_1_fields;
-        stream >> msg.header.group_2_fields;
         stream >> msg.TimeStartup;
         //qDebug() << "TimeStartup: " <<msg.TimeStartup;
         stream >> msg.yaw;
