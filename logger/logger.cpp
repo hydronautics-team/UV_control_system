@@ -25,7 +25,7 @@ void Logger::logStart() {
             qDebug()<<file.errorString() <<" " << file.error();
         }
         QTextStream stream2(&file);
-     stream2 << "Time2, TimeStartup,  msg.yaw, msg.pitch, msg.roll, msg.X_rate, msg.Y_rate,  msg.Z_rate,  msg.X_accel,  msg.Y_accel,  msg.Z_accel, VMA1, VMA2, VMA3, VMA4, VMA5, VMA6, VMA7, VMA8\n";
+     stream2 << "Time2, TimeStartup,  msg.yaw, msg.pitch, msg.roll, msg.X_rate, msg.Y_rate,  msg.Z_rate,  msg.X_accel,  msg.Y_accel,  msg.Z_accel, VMA1, VMA2, VMA3, VMA4, VMA5, VMA6, VMA7, VMA8, ControlSignalPsi, ControlSignalRoll\n";
 
     }
  }
@@ -35,7 +35,7 @@ void Logger::logTick(DataFromVectorNav msg) {
         QTextStream stream2(&file);
         stream2 << QTime::currentTime().toString("hh-mm-ss-zz") << " , " << msg.TimeStartup <<" , " <<  msg.yaw <<" , "<< msg.pitch<< " , " << msg.roll <<" , "<< msg.X_rate <<" , "<< \
         msg.Y_rate << " , "<< msg.Z_rate << " , " << msg.X_accel << " , "<< msg.Y_accel << " , " << msg.Z_accel<<" , " \
-                << X[111][0]<<" , "<<X[121][0]<<" , "<<X[131][0]<<" , "<<X[141][0]<<" , "<<X[151][0]<<" , "<<X[161][0]<<" , "<<X[171][0]<<" , "<<X[181][0]<<"\n";
+                << X[111][0]<<" , "<<X[121][0]<<" , "<<X[131][0]<<" , "<<X[141][0]<<" , "<<X[151][0]<<" , "<<X[161][0]<<" , "<<X[171][0]<<" , "<<X[181][0]<<" , "<<X[101][0]<<" , "<<X[103][0]<<"\n";
 //        qDebug()<<"stream2 << QTime::currentTime().toString";
     }
  }
