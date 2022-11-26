@@ -39,7 +39,7 @@ public:
     template <typename T> int sgn(T val) {
         return (T(0) < val) - (val < T(0));
     }
-
+    float saturation(float input,  float max, float min);
 protected:
     Logger logger;
     void readDataFromPult();
@@ -61,7 +61,7 @@ protected:
     bool vmaPowerOffFlag = true;
     bool modellingFlag = true;
     qint8 generationSinFlag;
-    QTime timeForSinus;
+    QTime timeForSinus, timeRegulator;
 };
 
 #endif // CS_ROV_H

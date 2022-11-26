@@ -104,7 +104,6 @@ void VectorNavProtocol::parseBuffer() {
         //qDebug() << "TimeStartup: " <<msg.TimeStartup;
         stream >> msg.yaw;
         //qDebug() << "yaw: " <<msg.yaw;
-        X[201][0] = msg.yaw;
         stream >>msg.pitch;
         //qDebug() << "pitch: " <<msg.pitch;
         stream >> msg.roll;
@@ -114,7 +113,6 @@ void VectorNavProtocol::parseBuffer() {
         stream >>msg.Y_rate;
         //qDebug() << "Y_rate: " <<msg.Y_rate;
         stream >> msg.Z_rate;
-        X[205][0] = msg.Z_rate;
         //qDebug() << "Z_rate: " <<msg.Z_rate;
         stream >> msg.X_accel;
         //qDebug() << "X_accel: " <<msg.X_accel;
