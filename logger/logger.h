@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "vectornav/vectornavprotocol.h"
+extern QVector<double> K;
 
 class Logger : public QObject
 {
@@ -12,7 +13,7 @@ class Logger : public QObject
 public:
     explicit Logger(QObject *parent = nullptr);
 
-signals:
+    signals:
 public slots:
     void logStart();
     void logTick(DataFromVectorNav data);
@@ -24,5 +25,3 @@ protected:
 };
 
 #endif // LOGGER_H
-
-
