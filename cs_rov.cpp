@@ -126,7 +126,7 @@ void CS_ROV::regulators()
             X[316][1] = X[316][0];
             X[315][1] = X[315][0];
             if (K[315] != 0){//значит заданы полки
-                X[316][0] = saturation(X[315][0],K[315],K[316]); //выходное значение интегратора с полками
+                X[316][0] = saturation(X[316][0],K[315],K[316]); //выходное значение интегратора с полками
             }
 
             X[317][0] = X[91][0]*K[317];
@@ -201,6 +201,7 @@ void CS_ROV::regulators()
         else if (pultProtocol->rec_data.sinTest.selectedContour == e_StabilizationContours::CONTOUR_ROLL){
             X[103][0] = K[103] * (X[201][0] + X[202][0]*sin(X[203][0]*timeForSinus.elapsed()*0.001));
             X[101][0] = 0;
+
         }
     }
 }
