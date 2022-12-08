@@ -182,7 +182,7 @@ void CS_ROV::regulators()
             X[91][1] = X[91][0];
         }
         else {
-                    X[101][0] = K[101]*X[91][0]; //управление по курсу, домножается на коэффициент и передается на ВМА
+            X[101][0] = K[101]*X[91][0]; //управление по курсу, домножается на коэффициент и передается на ВМА
         }
         if (pultProtocol->rec_data.controlContoursFlags.roll > 0) {//крен замкнут и это его регулятора
 
@@ -194,11 +194,13 @@ void CS_ROV::regulators()
     else if (pultProtocol->rec_data.cSMode == e_CSMode::MODE_IDENTIFICATION_2){
         if (pultProtocol->rec_data.sinTest.selectedContour==e_StabilizationContours::CONTOUR_YAW) {
             X[101][0] = K[101] * (X[201][0] + X[202][0]*sin(X[203][0]*timeForSinus.elapsed()*0.001));
+            X[103][0] = 0;
             //X[101][0] = U0 + A*sin(w*k*h);
             //в случае идентификации крена поменяем X[101][0] на X[103][0] и K[103]
         }
         else if (pultProtocol->rec_data.sinTest.selectedContour == e_StabilizationContours::CONTOUR_ROLL){
             X[103][0] = K[103] * (X[201][0] + X[202][0]*sin(X[203][0]*timeForSinus.elapsed()*0.001));
+            X[101][0] = 0;
         }
     }
 }
