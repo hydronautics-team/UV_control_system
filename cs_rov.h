@@ -45,6 +45,8 @@ protected:
     void readDataFromPult();
     void readDataFromSensors();
     void regulators();
+    void resetPsiChannel();
+    void resetRollChannel();
     void BFS_DRK(double Upsi, double Uteta, double Ugamma, double Ux, double Uy, double Uz);
     void writeDataToVMA();
     void writeDataToPult();
